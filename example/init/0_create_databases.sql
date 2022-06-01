@@ -1,1 +1,1 @@
-create database if not exists rules;
+create database if not exists example;

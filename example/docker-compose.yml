@@ -7,7 +7,7 @@ services:
   db:
     image: mariadb:10.5
     ports:
-      - "3308:3306"
+      - "3306:3306"
     expose:
       - "3306"
     environment:
@@ -17,11 +17,11 @@ services:
       - ./init:/docker-entrypoint-initdb.d
     networks:
       - example
-  migrate-rules-db:
-    image: registry.sasyadev.com/migrate_wait:latest
-    command: -c "waitforit -timeout=30 -retry=1000 -debug -address=tcp://db:3306 -- echo starting migration && migrate -path=/migrations -database mysql://root:Pass1word@tcp\(db:3306\)/rules up"
+  migrate-example-db:
+    image: migrate_wait:latest
+    command: -c "waitforit -timeout=30 -retry=1000 -debug -address=tcp://db:3306 -- echo starting migration && migrate -path=/migrations -database mysql://root:Pass1word@tcp\\(db:3306\\)/example up"
     volumes:
-      - ../../compliance-hub-rules-service/database/migrations:/migrations
+      - ./migrations:/migrations
     networks:
       - example
   
